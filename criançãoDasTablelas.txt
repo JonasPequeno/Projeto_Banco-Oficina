@@ -40,7 +40,8 @@ FOREIGN KEY(CpfGerente) REFERENCES FUNCIONARIO(CPF);
 CREATE TABLE PessoaTelefone(
  Cpf VARCHAR(11),
  Telefone VARCHAR(11),
- PRIMARY KEY(Cpf , Telefone)
+ PRIMARY KEY(Cpf , Telefone),
+ FOREIGN KEY (cpf) REFERENCES PESSOA(CPF)
 );
 
 CREATE TABLE PONTO(
@@ -74,8 +75,8 @@ CREATE TABLE PecaAcessorio(
 CREATE TABLE FuncionarioEstoque(
  CpfFuncionario VARCHAR(11),
  IDEstoque INT,
- PRIMARY KEY(CpfFunc,IDEstoque),
- FOREIGN KEY(CpfFunc) REFERENCES Funcionario(Cpf),
+ PRIMARY KEY(CpfFuncionario,IDEstoque),
+ FOREIGN KEY(CpfFuncionario) REFERENCES Funcionario(Cpf),
  FOREIGN KEY(IDEstoque) REFERENCES Estoque(ID)
 );
 CREATE TABLE FuncionarioPecaAcessorio(
@@ -204,4 +205,12 @@ CREATE TABLE ClientePagamento(
  PRIMARY KEY(IDPagamento , CpfCliente),
  FOREIGN KEY(IDPagamento) REFERENCES Pagamento(ID),
  FOREIGN KEY(CpfCliente) REFERENCES Cliente(CPF)
+);
+
+CREATE TABLE FornecedorPecaAcessorio(
+ CNPJ VARCHAR(20),
+ CodPeca INT,
+ PRIMARY KEY(CNPJ,CodPeca),
+ FOREIGN KEY(CNPJ) REFERENCES Fornecedor(CNPJ),
+ FOREIGN KEY(CodPeca) REFERENCES PECAACESSORIO(Codigo)
 );
