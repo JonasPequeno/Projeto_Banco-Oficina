@@ -183,7 +183,7 @@ CREATE TABLE VendaCartao(
  IDPagamento INT,
  NumParcelas INT,
  NumCartao  VARCHAR(20),
- PRIMARY KEY(IDPagamento),
+ PRIMARY KEY(IDPagamento), ------------------------------- DEVERIA SER CHAVE ESTRANGEIRA?
  FOREIGN KEY(NumCartao) REFERENCES Cartao(Numero),
  FOREIGN KEY(IDPagamento) REFERENCES Pagamento(ID)
 );
