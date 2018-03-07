@@ -71,3 +71,137 @@ CREATE TABLE PecaAcessorio(
  PRIMARY KEY(Codigo),
  FOREIGN KEY(IDEstoque) REFERENCES Estoque(ID)
 );
+CREATE TABLE FuncionarioEstoque(
+ CpfFuncionario VARCHAR(11),
+ IDEstoque INT,
+ PRIMARY KEY(CpfFunc,IDEstoque),
+ FOREIGN KEY(CpfFunc) REFERENCES Funcionario(Cpf),
+ FOREIGN KEY(IDEstoque) REFERENCES Estoque(ID)
+);
+CREATE TABLE FuncionarioPecaAcessorio(
+ CpfGerente VARCHAR(11),
+ CpfFuncionario VARCHAR(11),
+ CodPeca INT,
+ Data Date not null,
+ FOREIGN KEY(CpfGerente) REFERENCES Funcionario(Cpf),
+ FOREIGN KEY(CpfFuncionario) REFERENCES Funcionario(Cpf),
+ FOREIGN KEY(codPeca) REFERENCES PecaAcessorio(Codigo) 
+);
+CREATE TABLE Pedido(
+ ID INT,
+ Quantidade INT,
+ Data DATE ,
+ PRIMARY KEY(ID)
+);
+CREATE TABLE PedidoPecaAcessorio(
+ IDPedido INT,
+ CodPeca INT,
+ PRIMARY KEY(IDPedido,CodPeca),
+ FOREIGN KEY(codPeca) REFERENCES PecaAcessorio(Codigo),
+ FOREIGN KEY(IDPedido) REFERENCES Pedido(ID)
+);
+
+CREATE TABLE FuncionarioPedido(
+ CpfGerente VARCHAR(11),
+ IDPedido INT,
+ PRIMARY KEY(CpfGerente,IDPedido),
+ FOREIGN KEY(CpfGerente) REFERENCES Funcionario(Cpf),
+ FOREIGN KEY(IDPedido) REFERENCES Pedido(ID)
+);
+CREATE TABLE Fornecedor(
+ NomeEmpresa VARCHAR(50) NOT NULL UNIQUE,
+ Codigo INT UNIQUE NOT NULL,
+ CNPJ VARCHAR(20),
+ ENDERECO VARCHAR(100) NOT NULL,
+ PRIMARY KEY(CNPJ)
+);
+
+CREATE TABLE PedidoFornecedor(
+ CNPJ VARCHAR(20),
+ IDPEdido INT,
+ PRIMARY KEY(CNPJ,IDPedido),
+ FOREIGN KEY(CNPJ) REFERENCES Fornecedor(CNPJ),
+ FOREIGN KEY(IDPedido) REFERENCES Pedido(ID)
+);
+
+CREATE TABLE FornecedorTelefone(
+ CNPJ VARCHAR(20),
+ Telefone VARCHAR(11),
+ PRIMARY KEY(CNPJ , Telefone),
+ FOREIGN KEY(CNPJ) REFERENCES Fornecedor(CNPJ)
+);
+
+CREATE TABLE Agendamento(
+ ID INT,
+ Hora TIME NOT NULL,
+ Data DATE NOT NULL,
+ PRIMARY KEY(ID)
+);
+
+CREATE TABLE AgendaPecaAcessorio(
+ IDAgenda INT ,
+ CodPeca INT,
+ PRIMARY KEY(IDAgenda , CodPeca),
+ FOREIGN KEY(IDAgenda) REFERENCES Agendamento(ID),
+ FOREIGN KEY(CodPeca) REFERENCES PecaAcessorio(Codigo)
+);
+
+CREATE TABLE FuncionarioAgenda(
+ CpfFuncionario VARCHAR(11),
+ IDAgenda INT,
+ Disponibilidade BOOLEAN,
+ PRIMARY KEY(CpfFuncionario,IDAgenda),
+ FOREIGN KEY(IDAgenda) REFERENCES Agendamento(ID),
+ FOREIGN KEY(CpfFuncionario) REFERENCES Funcionario(CPF)
+);
+
+CREATE TABLE ClienteAgenda(
+ CpfCliente VARCHAR(11),
+ IDAgenda INT,
+ Data DATE NOT NULL,
+ Hora TIME NOT NULL,
+ PRIMARY KEY(CpfCliente,IDAgenda),
+ FOREIGN KEY(IDAgenda) REFERENCES Agendamento(ID),
+ FOREIGN KEY(CpfCliente) REFERENCES Cliente(CPF)
+);
+
+CREATE TABLE Pagamento(
+ ID INT,
+ Data DATE NOT NULL,
+ Hora TIME NOT NULL,
+ PRIMARY KEY(ID)
+);
+CREATE TABLE Cartao(
+ Numero VARCHAR(20),
+ Bandeira VARCHAR(20) NOT NULL,
+ Titular VARCHAR(50) NOT NULL,
+ PRIMARY KEY(Numero)
+);
+
+CREATE TABLE VendaCartao(
+ IDPagamento INT,
+ NumParcelas INT,
+ NumCartao  VARCHAR(20),
+ PRIMARY KEY(IDPagamento),
+ FOREIGN KEY(NumCartao) REFERENCES Cartao(Numero),
+ FOREIGN KEY(IDPagamento) REFERENCES Pagamento(ID)
+);
+
+CREATE TABLE VendaCheque(
+ IDPagamento INT,
+ Titular VARCHAR(50) NOT NULL, 
+ Numero VARCHAR(50),
+ Data DATE NOT NULL,
+ Banco VARCHAR(50),
+ PRIMARY KEY(IDPagamento),
+ FOREIGN KEY(IDPagamento) REFERENCES Pagamento(ID)
+);
+
+
+CREATE TABLE ClientePagamento(
+ CpfCliente VARCHAR(11),
+ IDPagamento INT,
+ PRIMARY KEY(IDPagamento , CpfCliente),
+ FOREIGN KEY(IDPagamento) REFERENCES Pagamento(ID),
+ FOREIGN KEY(CpfCliente) REFERENCES Cliente(CPF)
+);
