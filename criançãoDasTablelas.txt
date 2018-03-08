@@ -183,7 +183,7 @@ CREATE TABLE VendaCartao(
  IDPagamento INT,
  NumParcelas INT,
  NumCartao  VARCHAR(20),
- PRIMARY KEY(IDPagamento), ------------------------------- DEVERIA SER CHAVE ESTRANGEIRA?
+ PRIMARY KEY(IDPagamento),
  FOREIGN KEY(NumCartao) REFERENCES Cartao(Numero),
  FOREIGN KEY(IDPagamento) REFERENCES Pagamento(ID)
 );
@@ -214,3 +214,4 @@ CREATE TABLE FornecedorPecaAcessorio(
  FOREIGN KEY(CNPJ) REFERENCES Fornecedor(CNPJ),
  FOREIGN KEY(CodPeca) REFERENCES PECAACESSORIO(Codigo)
 );
+ 

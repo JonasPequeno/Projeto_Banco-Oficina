@@ -1,0 +1,47 @@
+INSERT INTO PESSOA VALUES ('76372877341', 'ana.paula.teixeira@gmail.com', '911225341', '15/10/1970', 'Ana Paula Gomes Teixeira', 'Rua Coronel Juvêncio Carneiro 489', 'Centro', 'Cajazeiras-PB');
+INSERT INTO PESSOA VALUES ('21286903661', 'pedro.machado@gmail.com', '403289440', '26/8/1999', 'Pedro Amaral Machado', 'Rua do Comércio, s/n', 'Centro', 'Cajazeiras-PB'); 
+INSERT INTO PESSOA VALUES ('44899183488', 'arthur.gomes@uol.com.br', '418757896', '09/5/1978', 'Arthur Ducati Gomes', 'Rua Coronel Juvêncio Carneiro 489', 'Centro', 'Cajazeiras-PB');
+INSERT INTO PESSOA VALUES ('80304393347', 'gabriela.severo@hotmail.com', '529434121', '03/8/1952', 'Gabriela Machado Severo', 'Rua Coronel Juvêncio Carneiro 489', 'Centro', 'Cajazeiras-PB');
+INSERT INTO PESSOA VALUES ('71488671001', 'mauro.gomes@globo.com', '429434121', '09/1/1982', 'Mauro Gomes Lacerda', 'Rua Joaquim Lopes Ribeiro 31', 'Centro', 'Ibira-PB');
+INSERT INTO PESSOA VALUES ('42244217205', 'laura.amaral@hotmail.com', '418757896', '23/6/1953', 'Laura Gomes Amaral', 'Rua Josefa Ramos Borba', 'Presidente Médici', 'Campina Grande-PB');
+INSERT INTO PESSOA VALUES ('19552414571', 'pedro.teixeira@yahoo.com', '629434121', '05/05/1997', 'Pedro Amaral Teixeira', 'Rua Nicola Porto', 'Manaíra', 'João Pessoa-PB');
+INSERT INTO PESSOA VALUES ('16805952026', 'arthur.teixeira@uol.com.br', '911225341', '18/10/1986', 'Arthur Machado Teixeira', 'Rua Manoel Félix', 'Louzeiro', 'Campina Grande-PB');
+INSERT INTO PESSOA VALUES ('16805951234', 'jj.teixeira@uol.com.br', '911221334', '14/12/1996', 'João Júnior Teixeira', 'Rua Manoel Félix', 'Louzeiro', 'Campina Grande-PB');
+INSERT INTO PESSOA VALUES ('16805222222', 'amelia@uol.com.br', '255228890', '04/10/1992', 'Amélia Lopes da Silva', 'Rua Manoel Félix', 'Louzeiro', 'Campina Grande-PB');
+INSERT INTO PESSOA VALUES ('23345256222', 'rivaldo@uol.com.br', '874322901', '09/07/1989', 'Rivaldo Mangueira dos Santos', 'Rua Manoel Félix', 'Louzeiro', 'Campina Grande-PB');
+INSERT INTO PESSOA VALUES ('56845256272', 'francisco@gmail.com.br', '909022901', '29/04/1989', 'Francisco dos Santos', 'Rua Francisco Januário de Lacerda', 'Distrito Industrial', 'Campina Grande-PB');
+
+INSERT INTO CLIENTE VALUES ('76372877341');
+INSERT INTO CLIENTE VALUES ('21286903661');
+INSERT INTO CLIENTE VALUES ('44899183488');
+INSERT INTO CLIENTE VALUES ('80304393347');
+INSERT INTO CLIENTE VALUES ('71488671001');
+INSERT INTO CLIENTE VALUES ('42244217205');
+
+INSERT INTO DEPARTAMENTO VALUES(1, 'Financeiro', '16805951234');
+INSERT INTO DEPARTAMENTO VALUES(2, 'Mecânica', '16805222222');
+
+INSERT INTO FUNCIONARIO VALUES('42244217205', 1000.00, 'Mecânico','1111-1', 2);
+INSERT INTO FUNCIONARIO VALUES('19552414571', 980.00, 'Atendente','2222-1', 1);
+INSERT INTO FUNCIONARIO VALUES('16805952026', 1000.00, 'Mecânico','1111-2', 2);
+INSERT INTO FUNCIONARIO VALUES('16805951234', 3500.00, 'Gerente','3333-1');
+INSERT INTO FUNCIONARIO VALUES('16805222222', 3500.00, 'Gerente','1111-2');
+INSERT INTO FUNCIONARIO VALUES('23345256222', 1000.00, 'Mecânico','3333-3', 2);
+INSERT INTO FUNCIONARIO VALUES('56845256272', 980.00, 'Atendente','2222-2', 1);
+
+INSERT INTO PESSOATELEFONE('76372877341', '83985476253');
+INSERT INTO PESSOATELEFONE('21286903661', '83975016147');
+INSERT INTO PESSOATELEFONE('19552414571', '83965046048');
+INSERT INTO PESSOATELEFONE('16805222222', '83955946941');
+INSERT INTO PESSOATELEFONE('71488671001', '83945696740');
+INSERT INTO PESSOATELEFONE('16805951234', '83935556643');
+INSERT INTO PESSOATELEFONE('76372877341', '83925325745');
+
+INSERT INTO PONTO(1, '21/02/2017', '08:01:43', '18:05:34', '16805951234');
+INSERT INTO PONTO(2, '21/02/2017', '08:05:13', '18:01:12', '42244217205');
+INSERT INTO PONTO(3, '21/02/2017', '07:58:50', '18:15:34', '16805222222');
+INSERT INTO PONTO(4, '21/02/2017', '07:59:05', '18:03:31', '56845256272');
+INSERT INTO PONTO(5, '21/02/2017', '08:06:23', '18:00:54', '16805951234');
+INSERT INTO PONTO(6, '21/02/2017', '08:01:12', '18:05:22', '23345256222');
+
+INSERT TABLE ESTOQUE VALUES(200, 1);
