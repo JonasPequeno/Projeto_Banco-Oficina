@@ -24,6 +24,8 @@ CREATE TABLE Funcionario(
  CodDepartamento INT,
  PRIMARY KEY(CPF)
 );
+
+
 CREATE TABLE Departamento(
  Codigo INT,
  Nome VARCHAR(30) NOT NULL UNIQUE,
@@ -208,4 +210,11 @@ CREATE TABLE FornecedorPecaAcessorio(
  FOREIGN KEY(CNPJ) REFERENCES Fornecedor(CNPJ),
  FOREIGN KEY(CodPeca) REFERENCES PECAACESSORIO(Codigo)
 );
+
+--- Já que é referencia cruzada, a restriçao foi adicionado depois---
+ALTER TABLE DEPARTAMENTO ADD CONSTRAINT cpfGerente_fk
+FOREIGN KEY(CpfGerente) REFERENCES FUNCIONARIO(CPF);
+
+ALTER TABLE FUNCIONARIO ADD CONSTRAINT codDep_fk
+FOREIGN KEY(CodDepartamento) REFERENCES Departamento(Codigo);
  
