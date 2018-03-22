@@ -1,0 +1,72 @@
+---1---
+select nome as Cliente
+from cliente natural join pessoa;
+
+---2---
+select nome , cargo , salario
+from funcionario natural join pessoa;
+
+---3---
+select *
+from pecaacessorio
+where codigo = '001';
+
+---4----
+select sum(quantTotal) as Quantidade 
+from estoque;
+
+---5---
+select count(*)
+from funcionario
+where codDepartamento = all(
+  select codigo
+  from departamento 
+  where codigo = '1';
+)
+---6---
+select hora , disponibilidade
+from agendamento a, funcionarioAgenda fa
+where a.id = fa.idagenda and a.data = '02/02/2017'
+
+
+---7---
+select *
+from funcionarioAgenda fa , clienteAgenda ca 
+where fa.idagenda = ca.idagenda and disponibilidade = true;
+
+---8---
+select *
+from fornecedor
+order by nomeEmpresa
+
+---9---
+select p.nome as Funcionario
+from ponto po , funcionario f , pessoa p
+where f.cpf = po.cpffuncionario and p.cpf = f.cpf and po.data = '21/02/2017'
+
+
+
+---buscar todos os dados das pessoas que não possuem nome de rua---
+select *
+from pessoa 
+where rua is null
+
+
+---Crie uma visão que recupere o nome de todos os funcionarios que tbm são clientes---
+create or replace view clienteFuncionario
+as(
+  select nome
+  from funcionario natural join cliente c join pessoa p on c.cpf = p.cpf
+)
+
+--Recupere o nome e o cnpj da empresa que fornece pelo menos dois tipos de peças para a equipadora---
+select  f.cnpj , f.nomeEmpresa
+from fornecedor f natural join fornecedorpecaacessorio fp
+group by f.cnpj , f.nomeEmpresa
+having count(*) >=2;
+
+---Recupere todos os clientes que ja realizaram mais de um pagamento com cheque---
+select titular
+from vendaCheque
+group by titular
+having count(*)>=2;
