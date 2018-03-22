@@ -179,6 +179,7 @@ CREATE TABLE VendaCartao(
  IDPagamento INT,
  NumParcelas INT,
  NumCartao  VARCHAR(20),
+ Valor Real NOT NULL,
  PRIMARY KEY(IDPagamento),
  FOREIGN KEY(NumCartao) REFERENCES Cartao(Numero),
  FOREIGN KEY(IDPagamento) REFERENCES Pagamento(ID)
@@ -190,6 +191,7 @@ CREATE TABLE VendaCheque(
  Numero VARCHAR(50),
  Data DATE NOT NULL,
  Banco VARCHAR(50),
+ Valor Real NOT NULL,
  PRIMARY KEY(IDPagamento),
  FOREIGN KEY(IDPagamento) REFERENCES Pagamento(ID)
 );
