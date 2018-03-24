@@ -21,12 +21,12 @@ from funcionario
 where codDepartamento = all(
   select codigo
   from departamento 
-  where codigo = '1';
-)
+  where codigo = '1'
+);
 ---6---
 select hora , disponibilidade
 from agendamento a, funcionarioAgenda fa
-where a.id = fa.idagenda and a.data = '02/02/2017'
+where a.id = fa.idagenda and a.data = '02/02/2017';
 
 
 ---7---
@@ -37,27 +37,32 @@ where fa.idagenda = ca.idagenda and disponibilidade = true;
 ---8---
 select *
 from fornecedor
-order by nomeEmpresa
+order by nomeEmpresa;
 
 ---9---
 select p.nome as Funcionario
 from ponto po , funcionario f , pessoa p
-where f.cpf = po.cpffuncionario and p.cpf = f.cpf and po.data = '21/02/2017'
+where f.cpf = po.cpffuncionario and p.cpf = f.cpf and po.data = '21/02/2017';
 
 
 
 ---buscar todos os dados das pessoas que não possuem nome de rua---
 select *
 from pessoa 
-where rua is null
+where rua is null;
 
 
 ---Crie uma visão que recupere o nome de todos os funcionarios que tbm são clientes---
 create or replace view clienteFuncionario
-as(
-  select nome
-  from funcionario natural join cliente c join pessoa p on c.cpf = p.cpf
-)
+as
+select p.nome
+from funcionario f , pessoa p
+where f.cpf = p.cpf and exists
+(
+ select *
+ from cliente c
+ where f.cpf = c.cpf
+);
 
 --Recupere o nome e o cnpj da empresa que fornece pelo menos dois tipos de peças para a equipadora---
 select  f.cnpj , f.nomeEmpresa
@@ -70,3 +75,61 @@ select titular
 from vendaCheque
 group by titular
 having count(*)>=2;
+
+--Visão que retorna o valor total de todas as vendas feitas no cheque --
+create or replace view ValorTotalVendaCheque
+as(
+  select sum(valor) as Valor_Total
+  from vendaCheque 
+);
+
+--Visão que retorna o valor total de todas as vendas feitas no Cartão --
+create or replace view ValorTotalVendaCartao
+as(
+  select sum(valor) as Valor_Total
+  from vendaCartao
+);
+
+-- Buscar todos as pessoas do Ceará--
+select *
+from pessoa 
+where cidade like '%CE'
+
+--Procedimento armaezenada para calcular o valor total de todas as vendas--
+create or replace function SomaVendas() 
+returns real 
+as
+$$
+declare 
+ totalCheque vendaCheque.valor%type; 
+ totalCartao vendaCartao.valor%type;
+begin
+ select into totalCheque *
+ from ValorTotalVendaCheque;
+ 
+ select into totalCartao *
+ from ValorTotalVendaCartao;
+
+ return totalCartao + TotalCheque;
+end
+$$ language plpgsql;
+select somaVendas();
+
+--crie um sub programa que receba como entrada o numero do departamento--
+--e retorne a media salarial dos empregados alocados no mesmo.--
+create or replace function quantEmpregado(int)
+returns numeric(2) 
+as $$
+declare
+ NumDep alias for $1;
+ folhaPagamento numeric(2):=0;
+begin
+ select into folhaPagamento avg(salario) as Folha_De_Pagamento
+ from departamento d join funcionario f  on (d.codigo = f.codDepartamento)
+ where d.codigo = numDep;
+ return folhaPagamento;
+end
+$$ language plpgsql;
+
+
+
