@@ -15,14 +15,7 @@ where codigo = '001';
 select sum(quantTotal) as Quantidade 
 from estoque;
 
----5---
-select count(*)
-from funcionario
-where codDepartamento = all(
-  select codigo
-  from departamento 
-  where codigo = '1'
-);
+
 ---6---
 select hora , disponibilidade
 from agendamento a, funcionarioAgenda fa
@@ -37,7 +30,7 @@ where fa.idagenda = ca.idagenda and disponibilidade = true;
 ---8---
 select *
 from fornecedor
-order by nomeEmpresa;
+order by nomeEmpresa asc;
 
 ---9---
 select p.nome as Funcionario
@@ -90,10 +83,18 @@ as(
   from vendaCartao
 );
 
--- Buscar todos as pessoas do Ceará--
+-- Buscar todos as pessoas do Ceará , ordenas de forma crescente pelo nome ---
 select *
 from pessoa 
 where cidade like '%CE'
+order by nome;
+
+
+--recuperar os dados das pessoas que tem Teixeira no nome --
+select *
+from pessoa p
+where nome like'%Teixeira';
+
 
 --Procedimento armaezenada para calcular o valor total de todas as vendas--
 create or replace function SomaVendas() 
@@ -130,6 +131,41 @@ begin
  return folhaPagamento;
 end
 $$ language plpgsql;
+
+--recupere todos os pagamento feitos no cartao que não sao nulos ---
+select *
+from vendaCartao
+where numparcelas is not null;
+
+--Recupere todos os clientes que já fizeram agendamento, usando consulta --
+--Aninhada Correlacionada--
+select cpfCliente
+from clienteAgenda
+where exists 
+(
+ select cpf
+ from cliente
+);
+
+
+--Nome do Cliente que fez agenda em determiando dia--
+create or replace function agendamentos(date)
+returns varchar
+as
+$$
+declare 
+dataPassada alias for $1;
+cliente varchar ;
+begin
+  select into cliente p.nome
+  from pessoa p ,clienteAgenda ca , agendamento a join FuncionarioAgenda fa on fa.idAgenda = a.id 
+  where p.cpf = ca.cpfCliente and ca.idAgenda = a.id and disponibilidade = true and a.data = dataPassada;
+  return cliente;
+end
+$$ language plpgsql;
+
+
+
 
 
 
