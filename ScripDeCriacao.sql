@@ -80,9 +80,10 @@ CREATE TABLE FuncionarioPecaAcessorio(
  CpfFuncionario VARCHAR(11),
  CodPeca INT,
  Data Date not null,
+ PRIMARY KEY(CpfGerente, CpfFuncionario, CodPeca, Data),
  FOREIGN KEY(CpfGerente) REFERENCES Funcionario(Cpf),
  FOREIGN KEY(CpfFuncionario) REFERENCES Funcionario(Cpf),
- FOREIGN KEY(codPeca) REFERENCES PecaAcessorio(Codigo) 
+ FOREIGN KEY(CodPeca) REFERENCES PecaAcessorio(Codigo) 
 );
 CREATE TABLE Pedido(
  ID INT,
