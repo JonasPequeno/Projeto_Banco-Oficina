@@ -164,8 +164,26 @@ begin
 end
 $$ language plpgsql;
 
+--Função de Gatilho--
+--Gatilho criado para atualiza o estoque após a inserção de uma nova peça --
+create or replace function atualizaEstoque()
+returns trigger 
+as
+$$
+declare 
+ quantidade int:=0;
+begin
+ select into quantidade quantTotal
+ from estoque 
+ where new.idEstoque = id;
+ update estoque set quantTotal = quantidade+1
+ where new.idEstoque = id;
+ return new;
+end
+$$ language plpgsql;
 
-
-
-
-
+--Gatilho--
+create trigger atualizaEstoque
+after insert on pecaAcessorio
+for each row 
+ execute procedure atualizaEstoque();
