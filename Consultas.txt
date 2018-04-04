@@ -187,3 +187,30 @@ create trigger atualizaEstoque
 after insert on pecaAcessorio
 for each row 
  execute procedure atualizaEstoque();
+
+--Gatilho faz a verificação se há departamentos diferentes com o mesmo gerente,-- 
+--se não houver adiciona o departamento desejado.--
+CREATE OR REPLACE FUNCTION limitegerente()
+  RETURNS trigger AS
+$$
+declare 
+ func departamento.cpfGerente%type;
+ quantidade int:=0;
+begin
+ select into quantidade count(*)
+ from departamento
+ group by cpfGerente
+ having cpfGerente = new.cpfGerente;
+
+ if(quantidade >=1) then return null ;
+ else	select into func cpf
+	from funcionario 
+	where cpf = new.cpfGerente;
+
+	update funcionario  set cargo = 'Gerente' , salario = 3500
+	where cpf = func;
+	return new;
+ end if;
+end $$ LANGUAGE plpgsql;
+
+----
