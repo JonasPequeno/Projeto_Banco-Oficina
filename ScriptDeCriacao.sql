@@ -178,9 +178,9 @@ CREATE TABLE Cartao(
 
 CREATE TABLE VendaCartao(
  IDPagamento INT,
- NumParcelas INT,
+ NumParcelas INT DEFAULT 1,
  NumCartao  VARCHAR(20),
- Valor Real NOT NULL,
+ Valor Real NOT NULL, 
  PRIMARY KEY(IDPagamento),
  FOREIGN KEY(NumCartao) REFERENCES Cartao(Numero),
  FOREIGN KEY(IDPagamento) REFERENCES Pagamento(ID)

@@ -1,4 +1,4 @@
----1---
+﻿---1---
 select nome as Cliente
 from cliente natural join pessoa;
 
@@ -39,13 +39,13 @@ where f.cpf = po.cpffuncionario and p.cpf = f.cpf and po.data = '21/02/2017';
 
 
 
----buscar todos os dados das pessoas que não possuem nome de rua---
+---10---
 select *
 from pessoa 
 where rua is null;
 
 
----Crie uma visão que recupere o nome de todos os funcionarios que tbm são clientes---
+---11---
 create or replace view clienteFuncionario
 as
 select p.nome
@@ -57,46 +57,46 @@ where f.cpf = p.cpf and exists
  where f.cpf = c.cpf
 );
 
---Recupere o nome e o cnpj da empresa que fornece pelo menos dois tipos de peças para a equipadora---
+--12---
 select  f.cnpj , f.nomeEmpresa
 from fornecedor f natural join fornecedorpecaacessorio fp
 group by f.cnpj , f.nomeEmpresa
 having count(*) >=2;
 
----Recupere todos os clientes que ja realizaram mais de um pagamento com cheque---
+---13---
 select titular
 from vendaCheque
 group by titular
 having count(*)>=2;
 
---Visão que retorna o valor total de todas as vendas feitas no cheque --
+--14 --
 create or replace view ValorTotalVendaCheque
 as(
   select sum(valor) as Valor_Total
   from vendaCheque 
 );
 
---Visão que retorna o valor total de todas as vendas feitas no Cartão --
+--15 --
 create or replace view ValorTotalVendaCartao
 as(
   select sum(valor) as Valor_Total
   from vendaCartao
 );
 
--- Buscar todos as pessoas do Ceará , ordenas de forma crescente pelo nome ---
+-- 16 ---
 select *
 from pessoa 
 where cidade like '%CE'
 order by nome;
 
 
---recuperar os dados das pessoas que tem Teixeira no nome --
+-- 17 --
 select *
 from pessoa p
 where nome like'%Teixeira';
 
 
---Procedimento armaezenada para calcular o valor total de todas as vendas--
+--18--
 create or replace function SomaVendas() 
 returns real 
 as
@@ -116,8 +116,7 @@ end
 $$ language plpgsql;
 select somaVendas();
 
---crie um sub programa que receba como entrada o numero do departamento--
---e retorne a media salarial dos empregados alocados no mesmo.--
+--19--
 create or replace function quantEmpregado(int)
 returns numeric(2) 
 as $$
@@ -132,13 +131,7 @@ begin
 end
 $$ language plpgsql;
 
---recupere todos os pagamento feitos no cartao que não sao nulos ---
-select *
-from vendaCartao
-where numparcelas is not null;
-
---Recupere todos os clientes que já fizeram agendamento, usando consulta --
---Aninhada Correlacionada--
+--20--
 select cpfCliente
 from clienteAgenda
 where exists 
@@ -148,7 +141,7 @@ where exists
 );
 
 
---Nome do Cliente que fez agenda em determiando dia--
+--21--
 create or replace function agendamentos(date)
 returns varchar
 as
