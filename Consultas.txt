@@ -157,8 +157,9 @@ begin
 end
 $$ language plpgsql;
 
---Função de Gatilho--
---Gatilho criado para atualiza o estoque após a inserção de uma nova peça --
+
+-- 22 --
+--Função de Gatilho da questao 22--
 create or replace function atualizaEstoque()
 returns trigger 
 as
@@ -175,14 +176,14 @@ begin
 end
 $$ language plpgsql;
 
---Gatilho--
+--Gatilho da questao 22--
 create trigger atualizaEstoque
 after insert on pecaAcessorio
 for each row 
  execute procedure atualizaEstoque();
 
---Gatilho faz a verificação se há departamentos diferentes com o mesmo gerente,-- 
---se não houver adiciona o departamento desejado.--
+--23--
+--Funçao do Gatilho da questao 23
 CREATE OR REPLACE FUNCTION limitegerente()
   RETURNS trigger AS
 $$
@@ -199,11 +200,11 @@ begin
  else	select into func cpf
 	from funcionario 
 	where cpf = new.cpfGerente;
-
-	update funcionario  set cargo = 'Gerente' , salario = 3500
-	where cpf = func;
-	return new;
  end if;
 end $$ LANGUAGE plpgsql;
 
-----
+--Gatilho da questao 23--
+create trigger limitegerente
+before insert on departamento
+for each row 
+ execute procedure limitegerente();
